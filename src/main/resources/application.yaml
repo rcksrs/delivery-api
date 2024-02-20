@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: ${DATABASE_POSTGRES_SCHEMA:public}
+
+  datasource:
+    url: ${DATABASE_POSTGRES_URL:jdbc:postgresql://localhost:5432/delivery}
+    username: ${DATABASE_POSTGRES_USERNAME:admin}
+    password: ${DATABASE_POSTGRES_PASSWORD:admin}
+
+  flyway:
+    enabled: ${FLYWAY_MIGRATION_ENABLED:false}
+    schemas: ${DATABASE_POSTGRES_SCHEMA:public}
+    validate-on-migrate: false
+    baseline-on-migrate: true
+    baseline-version: 0
+    table: delivery_schema_history
+
+
+
