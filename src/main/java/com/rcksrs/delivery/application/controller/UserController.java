@@ -44,6 +44,7 @@ public class UserController {
     @Operation(summary = "Salvar usuário")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201"),
+            @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
     })
     public ResponseEntity<UserResponse> save(@RequestBody SaveUserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveUserUseCase.save(request));

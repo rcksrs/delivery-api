@@ -5,6 +5,6 @@ import com.rcksrs.delivery.core.exception.global.EntityNotFoundException;
 public class UserNotFoundException extends EntityNotFoundException {
 
     public UserNotFoundException() {
-        super("No user was found from the provided field");
+        super("User was not found");
     }
 }
