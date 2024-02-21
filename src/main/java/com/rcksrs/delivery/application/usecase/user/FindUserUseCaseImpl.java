@@ -17,11 +17,4 @@ public class FindUserUseCaseImpl implements FindUserUseCase {
         var user = userRepository.findByIdAndActiveTrue(id).orElseThrow(UserNotFoundException::new);
         return new UserResponse(user);
     }
-
-    @Override
-    public UserResponse findByEmailAndPassword(String email, String password) throws UserNotFoundException {
-        var user = userRepository.findByEmailAndPasswordAndActiveTrue(email, password)
-                .orElseThrow(UserNotFoundException::new);
-        return new UserResponse(user);
-    }
 }

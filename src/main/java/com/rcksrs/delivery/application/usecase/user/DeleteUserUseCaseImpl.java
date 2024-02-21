@@ -15,7 +15,7 @@ public class DeleteUserUseCaseImpl implements DeleteUserUseCase {
 
     @Override
     public void delete(Long id) throws UserNotFoundException {
-        var user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+        var user = userRepository.findByIdAndActiveTrue(id).orElseThrow(UserNotFoundException::new);
         user.setActive(false);
         user.setModifiedAt(LocalDateTime.now());
 
