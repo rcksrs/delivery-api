@@ -66,7 +66,7 @@ class SaveUserUseCaseImplTest {
         assertEquals(PHONE, userSaved.getPhone());
         assertEquals(ZIP_CODE, userSaved.getAddress().getZipCode());
 
-        verify(userRepository).findByEmailAndActiveTrue("email");
+        verify(userRepository).findByEmailAndActiveTrue(EMAIL);
         verify(userRepository).save(any(User.class));
     }
 
