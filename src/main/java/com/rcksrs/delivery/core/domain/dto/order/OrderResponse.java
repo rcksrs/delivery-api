@@ -1,7 +1,5 @@
 package com.rcksrs.delivery.core.domain.dto.order;
 
-import com.rcksrs.delivery.core.domain.dto.store.StoreResponse;
-import com.rcksrs.delivery.core.domain.dto.user.UserResponse;
 import com.rcksrs.delivery.core.domain.entity.Order;
 import com.rcksrs.delivery.core.domain.entity.OrderStatus;
 
@@ -10,8 +8,10 @@ public record OrderResponse(Long id,
                             Long quantity,
                             Double price,
                             OrderStatus status,
-                            String user,
-                            String store) {
+                            Long userId,
+                            String userName,
+                            Long storeId,
+                            String storeName) {
 
     public OrderResponse(Order order) {
         this(order.getId(),
@@ -19,7 +19,9 @@ public record OrderResponse(Long id,
                 order.getQuantity(),
                 order.getPrice(),
                 order.getStatus(),
+                order.getUser().getId(),
                 order.getUser().getName(),
+                order.getStore().getId(),
                 order.getStore().getName()
         );
     }
