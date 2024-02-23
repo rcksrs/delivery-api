@@ -53,15 +53,12 @@ public class OrderController {
             @ApiResponse(responseCode = "200")
     })
     @Parameters({
-            @Parameter(name = "pageNumber", description = "page number", in = ParameterIn.QUERY,
-                    schema = @Schema(type = "integer",  defaultValue = "0")),
-            @Parameter(name = "pageSize", description = "page size", in = ParameterIn.QUERY,
-                    schema = @Schema(type = "integer",  defaultValue = "5")),
-            @Parameter(name = "name", description = "sort specification", in = ParameterIn.QUERY,
-                    schema = @Schema(type = "string"))
+            @Parameter(name = "page", in = ParameterIn.QUERY, schema = @Schema(type = "integer")),
+            @Parameter(name = "size", in = ParameterIn.QUERY, schema = @Schema(type = "integer")),
+            @Parameter(name = "sort", in = ParameterIn.QUERY, schema = @Schema(type = "string"))
     })
     public ResponseEntity<Page<OrderResponse>> search(OrderFilter filter,
-                                                      @Parameter(hidden = true) @PageableDefault() Pageable pageable) {
+                                                      @Parameter(hidden = true) @PageableDefault Pageable pageable) {
         return ResponseEntity.ok(findOrderUseCase.findByFilter(filter, pageable));
     }
 
