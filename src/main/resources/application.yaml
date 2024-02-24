@@ -13,7 +13,7 @@ spring:
   jpa:
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -25,11 +25,8 @@ spring:
     password: ${DATABASE_POSTGRES_PASSWORD:admin}
 
   flyway:
-    enabled: ${FLYWAY_MIGRATION_ENABLED:false}
+    enabled: ${FLYWAY_MIGRATION_ENABLED:true}
     schemas: ${DATABASE_POSTGRES_SCHEMA:public}
-    validate-on-migrate: false
-    baseline-on-migrate: true
-    baseline-version: 0
     table: delivery_schema_history
 
 springdoc:
