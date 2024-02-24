@@ -3,10 +3,8 @@ package com.rcksrs.delivery.core.domain.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +22,7 @@ public class Order extends BaseEntity {
 
     @ManyToOne
     private Store store;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.REMOVE)
+    private List<Delivery> deliveries;
 }

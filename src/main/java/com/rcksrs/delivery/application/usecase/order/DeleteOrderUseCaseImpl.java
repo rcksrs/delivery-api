@@ -13,7 +13,6 @@ public class DeleteOrderUseCaseImpl implements DeleteOrderUseCase {
 
     @Override
     public void delete(Long id) throws OrderNotFoundException {
-        //TODO validar remoção de pedido ja associado a entrega
         var order = orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
         orderRepository.delete(order);
     }
