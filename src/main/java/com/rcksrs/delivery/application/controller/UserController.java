@@ -8,9 +8,8 @@ import com.rcksrs.delivery.core.usecase.user.DeleteUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.FindUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.SaveUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.UpdateUserUseCase;
-import com.rcksrs.delivery.infra.swagger.OpenApiConfig;
+import com.rcksrs.delivery.infra.role.RequiresAdminRole;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar usuário a partir do id")
-    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+    @RequiresAdminRole
     public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(findUserUseCase.findById(id));
     }
@@ -44,7 +43,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações básicas do usuário")
-    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+    @RequiresAdminRole
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
         updateUserUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -52,7 +51,7 @@ public class UserController {
 
     @PatchMapping("/{id}/email")
     @Operation(summary = "Atualizar email do usuário")
-    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+    @RequiresAdminRole
     public ResponseEntity<Void> updateEmail(@PathVariable Long id, @RequestBody String email) {
         updateUserUseCase.updateEmail(id, email);
         return ResponseEntity.noContent().build();
@@ -60,7 +59,7 @@ public class UserController {
 
     @PatchMapping("/{id}/role")
     @Operation(summary = "Atualizar perfil do usuário")
-    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+    @RequiresAdminRole
     public ResponseEntity<Void> updateRole(@PathVariable Long id, @RequestBody Role role) {
         updateUserUseCase.updateRole(id, role);
         return ResponseEntity.noContent().build();
@@ -68,7 +67,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Desativar usuário")
-    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+    @RequiresAdminRole
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteUserUseCase.delete(id);
         return ResponseEntity.noContent().build();

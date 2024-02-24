@@ -9,13 +9,12 @@ import com.rcksrs.delivery.core.usecase.delivery.DeleteDeliveryUseCase;
 import com.rcksrs.delivery.core.usecase.delivery.FindDeliveryUseCase;
 import com.rcksrs.delivery.core.usecase.delivery.SaveDeliveryUseCase;
 import com.rcksrs.delivery.core.usecase.delivery.UpdateDeliveryUseCase;
-import com.rcksrs.delivery.infra.swagger.OpenApiConfig;
+import com.rcksrs.delivery.infra.role.RequiresManagerRole;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -31,7 +30,7 @@ import javax.validation.Valid;
 @RequestMapping(value = "/v1/delivery")
 @RequiredArgsConstructor
 @Tag(name = "Delivery Controller")
-@SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+@RequiresManagerRole
 public class DeliveryController {
     private final FindDeliveryUseCase findDeliveryUseCase;
     private final SaveDeliveryUseCase saveDeliveryUseCase;

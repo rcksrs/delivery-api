@@ -7,9 +7,8 @@ import com.rcksrs.delivery.core.usecase.store.DeleteStoreUseCase;
 import com.rcksrs.delivery.core.usecase.store.FindStoreUseCase;
 import com.rcksrs.delivery.core.usecase.store.SaveStoreUseCase;
 import com.rcksrs.delivery.core.usecase.store.UpdateStoreUseCase;
-import com.rcksrs.delivery.infra.swagger.OpenApiConfig;
+import com.rcksrs.delivery.infra.role.RequiresManagerRole;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ import javax.validation.Valid;
 @RequestMapping(value = "/v1/store")
 @RequiredArgsConstructor
 @Tag(name = "Store Controller")
-@SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
+@RequiresManagerRole
 public class StoreController {
     private final FindStoreUseCase findStoreUseCase;
     private final SaveStoreUseCase saveStoreUseCase;
