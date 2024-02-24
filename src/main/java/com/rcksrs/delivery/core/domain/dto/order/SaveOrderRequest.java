@@ -3,7 +3,17 @@ package com.rcksrs.delivery.core.domain.dto.order;
 import com.rcksrs.delivery.core.domain.entity.Order;
 import com.rcksrs.delivery.core.domain.entity.OrderStatus;
 
-public record SaveOrderRequest(String description, Long quantity, Double price, Long userId, Long storeId) {
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+public record SaveOrderRequest(
+        @NotBlank @Size(min = 20, max = 255) String description,
+        @Positive Long quantity,
+        @Positive Double price,
+        @NotNull Long userId,
+        @NotNull Long storeId) {
 
     public Order toEntity() {
         var order = new Order();

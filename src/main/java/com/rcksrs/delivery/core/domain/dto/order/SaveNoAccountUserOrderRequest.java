@@ -4,7 +4,18 @@ import com.rcksrs.delivery.core.domain.dto.user.NoAccountUserRequest;
 import com.rcksrs.delivery.core.domain.entity.Order;
 import com.rcksrs.delivery.core.domain.entity.OrderStatus;
 
-public record SaveNoAccountUserOrderRequest(Long storeId, String description, Long quantity, Double price, NoAccountUserRequest user) {
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+public record SaveNoAccountUserOrderRequest(
+        @NotNull Long storeId,
+        @NotBlank @Size(min = 20, max = 255) String description,
+        @Positive Long quantity,
+        @Positive Double price,
+        @NotNull @Valid NoAccountUserRequest user) {
 
     public Order toEntity() {
         var order = new Order();

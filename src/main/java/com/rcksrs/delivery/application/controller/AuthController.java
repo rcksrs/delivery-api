@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/v1/auth")
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class AuthController {
 
     @PostMapping("/token")
     @Operation(summary = "Gerar token de acesso")
-    public ResponseEntity<AuthUserResponse> token(@RequestBody AuthUserRequest request) {
+    public ResponseEntity<AuthUserResponse> token(@RequestBody @Valid AuthUserRequest request) {
         var authentication = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         var auth = authenticationManager.authenticate(authentication);
         var token = tokenService.generate((UserDetailsEntity) auth.getPrincipal());

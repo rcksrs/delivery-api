@@ -3,9 +3,10 @@ package com.rcksrs.delivery.core.domain.dto.user;
 import com.rcksrs.delivery.core.domain.entity.Address;
 import com.rcksrs.delivery.core.domain.entity.User;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
-public record UpdateUserRequest(String name, String password, String phone, Address address) {
+public record UpdateUserRequest(String name, String password, String phone, @Valid Address address) {
 
     public User update(User user) {
         user.setModifiedAt(LocalDateTime.now());

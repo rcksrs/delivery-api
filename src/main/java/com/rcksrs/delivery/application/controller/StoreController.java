@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/v1/store")
 @RequiredArgsConstructor
@@ -35,13 +37,13 @@ public class StoreController {
 
     @PostMapping
     @Operation(summary = "Salvar estabelecimento")
-    public ResponseEntity<StoreResponse> save(@RequestBody SaveStoreRequest request) {
+    public ResponseEntity<StoreResponse> save(@RequestBody @Valid SaveStoreRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveStoreUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações do estabelecimento")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateStoreRequest request) {
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateStoreRequest request) {
         updateStoreUseCase.update(id, request);
         return ResponseEntity.noContent().build();
     }

@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/v1/order")
 @RequiredArgsConstructor
@@ -51,19 +53,19 @@ public class OrderController {
 
     @PostMapping
     @Operation(summary = "Salvar pedido")
-    public ResponseEntity<OrderResponse> save(@RequestBody SaveOrderRequest request) {
+    public ResponseEntity<OrderResponse> save(@RequestBody @Valid SaveOrderRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveOrderUseCase.save(request));
     }
 
     @PostMapping("/no-account")
     @Operation(summary = "Salvar pedido para usuário sem conta")
-    public ResponseEntity<OrderResponse> saveNoAccountUser(@RequestBody SaveNoAccountUserOrderRequest request) {
+    public ResponseEntity<OrderResponse> saveNoAccountUser(@RequestBody @Valid SaveNoAccountUserOrderRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNoAccountUserOrderUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações do pedido")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateOrderRequest request) {
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateOrderRequest request) {
         updateOrderUseCase.update(id, request);
         return ResponseEntity.noContent().build();
     }

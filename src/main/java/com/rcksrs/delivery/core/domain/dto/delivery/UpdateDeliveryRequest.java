@@ -3,9 +3,10 @@ package com.rcksrs.delivery.core.domain.dto.delivery;
 import com.rcksrs.delivery.core.domain.entity.Address;
 import com.rcksrs.delivery.core.domain.entity.Delivery;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
-public record UpdateDeliveryRequest(String info, Address address) {
+public record UpdateDeliveryRequest(String info, @Valid Address address) {
     public void update(Delivery delivery) {
         delivery.setModifiedAt(LocalDateTime.now());
 

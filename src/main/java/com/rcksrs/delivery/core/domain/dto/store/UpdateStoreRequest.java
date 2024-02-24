@@ -3,9 +3,10 @@ package com.rcksrs.delivery.core.domain.dto.store;
 import com.rcksrs.delivery.core.domain.entity.Address;
 import com.rcksrs.delivery.core.domain.entity.Store;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 
-public record UpdateStoreRequest(String name, String email, String phone, String description, Address address) {
+public record UpdateStoreRequest(String name, String email, String phone, String description, @Valid Address address) {
     public Store update(Store store) {
         store.setModifiedAt(LocalDateTime.now());
 

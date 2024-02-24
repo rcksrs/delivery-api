@@ -1,5 +1,10 @@
 package com.rcksrs.delivery.core.domain.dto.user;
 
-public record AuthUserRequest(String email, String password) {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+public record AuthUserRequest(
+        @NotBlank @Email String email,
+        @NotBlank String password) {
 
 }

@@ -25,6 +25,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/v1/delivery")
 @RequiredArgsConstructor
@@ -56,13 +58,13 @@ public class DeliveryController {
 
     @PostMapping
     @Operation(summary = "Salvar entrega")
-    public ResponseEntity<DeliveryResponse> save(@RequestBody SaveDeliveryRequest request) {
+    public ResponseEntity<DeliveryResponse> save(@RequestBody @Valid SaveDeliveryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveDeliveryUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações da entrega")
-    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateDeliveryRequest request) {
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateDeliveryRequest request) {
         updateDeliveryUseCase.update(id, request);
         return ResponseEntity.noContent().build();
     }
