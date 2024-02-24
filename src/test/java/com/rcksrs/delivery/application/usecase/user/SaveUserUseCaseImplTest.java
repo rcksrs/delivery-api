@@ -13,6 +13,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -32,6 +33,9 @@ class SaveUserUseCaseImplTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private SaveUserUseCaseImpl saveUserUseCase;
 
@@ -41,6 +45,7 @@ class SaveUserUseCaseImplTest {
         var captor = ArgumentCaptor.forClass(User.class);
 
         when(userRepository.findByEmailAndActiveTrue(anyString())).thenReturn(Optional.empty());
+        when(passwordEncoder.encode(anyString())).thenReturn(PASSWORD);
         when(userRepository.save(captor.capture())).thenReturn(new User());
 
         var address = new Address();
