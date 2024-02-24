@@ -2,7 +2,9 @@ package com.rcksrs.delivery.application.usecase.delivery;
 
 import com.rcksrs.delivery.core.domain.dto.delivery.DeliveryResponse;
 import com.rcksrs.delivery.core.domain.dto.delivery.SaveDeliveryRequest;
+import com.rcksrs.delivery.core.domain.entity.DeliveryStatus;
 import com.rcksrs.delivery.core.domain.entity.OrderStatus;
+import com.rcksrs.delivery.core.exception.delivery.DeliveryInProgressException;
 import com.rcksrs.delivery.core.exception.order.OrderNotFoundException;
 import com.rcksrs.delivery.core.repository.DeliveryRepository;
 import com.rcksrs.delivery.core.repository.OrderRepository;
@@ -22,7 +24,11 @@ public class SaveDeliveryUseCaseImpl implements SaveDeliveryUseCase {
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
-    public DeliveryResponse save(SaveDeliveryRequest request) throws OrderNotFoundException {
+    public DeliveryResponse save(SaveDeliveryRequest request) throws DeliveryInProgressException, OrderNotFoundException {
+        if (deliveryRepository.existsByOrderIdAndStatusNot(request.orderId(), DeliveryStatus.CANCELED)) {
+            throw new DeliveryInProgressException();
+        }
+
         var order = orderRepository.findById(request.orderId()).orElseThrow(OrderNotFoundException::new);
         order.setStatus(OrderStatus.FINISHED);
         order.setModifiedAt(LocalDateTime.now());
