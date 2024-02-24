@@ -26,7 +26,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/token")
-    @Operation(summary = "Gerar token de acesso")
+    @Operation(summary = "Obter token de acesso")
     public ResponseEntity<AuthUserResponse> token(@RequestBody @Valid AuthUserRequest request) {
         var authentication = new UsernamePasswordAuthenticationToken(request.email(), request.password());
         var auth = authenticationManager.authenticate(authentication);
