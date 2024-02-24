@@ -4,16 +4,13 @@ import com.rcksrs.delivery.core.domain.dto.user.SaveUserRequest;
 import com.rcksrs.delivery.core.domain.dto.user.UpdateUserRequest;
 import com.rcksrs.delivery.core.domain.dto.user.UserResponse;
 import com.rcksrs.delivery.core.domain.entity.Role;
-import com.rcksrs.delivery.core.exception.global.ExceptionMessage;
 import com.rcksrs.delivery.core.usecase.user.DeleteUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.FindUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.SaveUserUseCase;
 import com.rcksrs.delivery.core.usecase.user.UpdateUserUseCase;
+import com.rcksrs.delivery.infra.swagger.OpenApiConfig;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -32,30 +29,20 @@ public class UserController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Buscar usuário a partir do id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200"),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
+    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
     public ResponseEntity<UserResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(findUserUseCase.findById(id));
     }
 
     @PostMapping
     @Operation(summary = "Salvar usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201"),
-            @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
     public ResponseEntity<UserResponse> save(@RequestBody SaveUserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveUserUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações básicas do usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204"),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
+    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
         updateUserUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -63,11 +50,7 @@ public class UserController {
 
     @PatchMapping("/{id}/email")
     @Operation(summary = "Atualizar email do usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204"),
-            @ApiResponse(responseCode = "400", content = @Content(schema = @Schema(implementation = ExceptionMessage.class))),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
+    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
     public ResponseEntity<Void> updateEmail(@PathVariable Long id, @RequestBody String email) {
         updateUserUseCase.updateEmail(id, email);
         return ResponseEntity.noContent().build();
@@ -75,10 +58,7 @@ public class UserController {
 
     @PatchMapping("/{id}/role")
     @Operation(summary = "Atualizar perfil do usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204"),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
+    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
     public ResponseEntity<Void> updateRole(@PathVariable Long id, @RequestBody Role role) {
         updateUserUseCase.updateRole(id, role);
         return ResponseEntity.noContent().build();
@@ -86,10 +66,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Desativar usuário")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204"),
-            @ApiResponse(responseCode = "404", content = @Content(schema = @Schema(implementation = ExceptionMessage.class)))
-    })
+    @SecurityRequirement(name = OpenApiConfig.SECURITY_NAME)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteUserUseCase.delete(id);
         return ResponseEntity.noContent().build();
