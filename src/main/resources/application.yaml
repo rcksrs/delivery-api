@@ -1,3 +1,9 @@
+app:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY:e41d7!3697@924k}
+    issuer: ${JWT_ISSUER:delivery-api}
+    expiration-hours: ${JWT_EXPIRATION_HOURS:24}
+
 server:
   port: 8080
   servlet:
@@ -26,5 +32,9 @@ spring:
     baseline-version: 0
     table: delivery_schema_history
 
+springdoc:
+  default-produces-media-type: application/json
+  swagger-ui:
+    tagsSorter: alpha
 
 
