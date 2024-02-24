@@ -1,6 +1,8 @@
 package com.rcksrs.delivery.application.usecase.order;
 
+import com.rcksrs.delivery.core.domain.dto.order.OrderFilter;
 import com.rcksrs.delivery.core.domain.entity.Order;
+import com.rcksrs.delivery.core.domain.entity.OrderStatus;
 import com.rcksrs.delivery.core.domain.entity.Store;
 import com.rcksrs.delivery.core.domain.entity.User;
 import com.rcksrs.delivery.core.exception.order.OrderNotFoundException;
@@ -11,11 +13,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
+import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -51,6 +57,46 @@ class FindOrderUseCaseImplTest {
 
         assertThrows(OrderNotFoundException.class, () -> findOrderUseCase.findById(ORDER_ID));
         verify(orderRepository).findById(ORDER_ID);
+    }
+
+    @Test
+    @DisplayName("Should find order by filter")
+    void shouldFindOrderByFilter() {
+        var order = new Order();
+        order.setId(ORDER_ID);
+        order.setUser(new User());
+        order.setStore(new Store());
+
+        var pageable = Pageable.ofSize(10);
+        var orderList = new PageImpl<>(Collections.singletonList(order), pageable, 1);
+
+        when(orderRepository.findAll(any(Example.class), any(Pageable.class))).thenReturn(orderList);
+
+        var request = new OrderFilter(null, null, null, null, OrderStatus.IN_PROGRESS);
+        var response = findOrderUseCase.findByFilter(request, pageable);
+
+        assertNotNull(response);
+        assertEquals(1, response.getTotalElements());
+        assertEquals(1, response.getTotalPages());
+        assertFalse(response.getContent().isEmpty());
+        assertEquals(ORDER_ID, response.getContent().get(0).id());
+    }
+
+    @Test
+    @DisplayName("Should not find any order by filter")
+    void shouldNotFindOrderByFilter() {
+        var pageable = Pageable.ofSize(10);
+        var orderList = new PageImpl<>(Collections.emptyList(), pageable, 0);
+
+        when(orderRepository.findAll(any(Example.class), any(Pageable.class))).thenReturn(orderList);
+
+        var request = new OrderFilter(null, null, null, null, OrderStatus.IN_PROGRESS);
+        var response = findOrderUseCase.findByFilter(request, pageable);
+
+        assertNotNull(response);
+        assertTrue(response.getContent().isEmpty());
+        assertEquals(0, response.getTotalElements());
+        assertEquals(0, response.getTotalPages());
     }
 
 }
