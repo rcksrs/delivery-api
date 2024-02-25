@@ -37,6 +37,7 @@ public class UserController {
 
     @PostMapping
     @Operation(summary = "Salvar usuário")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserResponse> save(@RequestBody @Valid SaveUserRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveUserUseCase.save(request));
     }
@@ -44,6 +45,7 @@ public class UserController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações básicas do usuário")
     @RequiresAdminRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UpdateUserRequest request) {
         updateUserUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -52,6 +54,7 @@ public class UserController {
     @PatchMapping("/{id}/email")
     @Operation(summary = "Atualizar email do usuário")
     @RequiresAdminRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateEmail(@PathVariable Long id, @RequestBody String email) {
         updateUserUseCase.updateEmail(id, email);
         return ResponseEntity.noContent().build();
@@ -60,6 +63,7 @@ public class UserController {
     @PatchMapping("/{id}/role")
     @Operation(summary = "Atualizar perfil do usuário")
     @RequiresAdminRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateRole(@PathVariable Long id, @RequestBody Role role) {
         updateUserUseCase.updateRole(id, role);
         return ResponseEntity.noContent().build();
@@ -68,6 +72,7 @@ public class UserController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Desativar usuário")
     @RequiresAdminRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteUserUseCase.delete(id);
         return ResponseEntity.noContent().build();

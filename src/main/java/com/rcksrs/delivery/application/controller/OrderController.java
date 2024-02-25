@@ -55,6 +55,7 @@ public class OrderController {
     @PostMapping
     @Operation(summary = "Salvar pedido")
     @RequiresUserRole
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<OrderResponse> save(@RequestBody @Valid SaveOrderRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveOrderUseCase.save(request));
     }
@@ -62,6 +63,7 @@ public class OrderController {
     @PostMapping("/no-account")
     @Operation(summary = "Salvar pedido para usuário sem conta")
     @RequiresManagerRole
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<OrderResponse> saveNoAccountUser(@RequestBody @Valid SaveNoAccountUserOrderRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveNoAccountUserOrderUseCase.save(request));
     }
@@ -69,6 +71,7 @@ public class OrderController {
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações do pedido")
     @RequiresManagerRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateOrderRequest request) {
         updateOrderUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -77,6 +80,7 @@ public class OrderController {
     @PatchMapping("/{id}/status")
     @Operation(summary = "Atualizar status do pedido")
     @RequiresManagerRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateStatus(@PathVariable Long id, @RequestBody OrderStatus status) {
         updateOrderUseCase.updateStatus(id, status);
         return ResponseEntity.noContent().build();
@@ -85,6 +89,7 @@ public class OrderController {
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir pedido")
     @RequiresManagerRole
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteOrderUseCase.delete(id);
         return ResponseEntity.noContent().build();

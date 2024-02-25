@@ -57,12 +57,14 @@ public class DeliveryController {
 
     @PostMapping
     @Operation(summary = "Salvar entrega")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<DeliveryResponse> save(@RequestBody @Valid SaveDeliveryRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveDeliveryUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações da entrega")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateDeliveryRequest request) {
         updateDeliveryUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -70,6 +72,7 @@ public class DeliveryController {
 
     @PatchMapping("/{id}/status")
     @Operation(summary = "Atualizar status da entrega")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> updateStatus(@PathVariable Long id, @RequestBody DeliveryStatus status) {
         updateDeliveryUseCase.updateStatus(id, status);
         return ResponseEntity.noContent().build();
@@ -77,6 +80,7 @@ public class DeliveryController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Excluir entrega")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteDeliveryUseCase.delete(id);
         return ResponseEntity.noContent().build();

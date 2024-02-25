@@ -36,12 +36,14 @@ public class StoreController {
 
     @PostMapping
     @Operation(summary = "Salvar estabelecimento")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<StoreResponse> save(@RequestBody @Valid SaveStoreRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(saveStoreUseCase.save(request));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualizar informações do estabelecimento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody @Valid UpdateStoreRequest request) {
         updateStoreUseCase.update(id, request);
         return ResponseEntity.noContent().build();
@@ -49,6 +51,7 @@ public class StoreController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Desativar estabelecimento")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         deleteStoreUseCase.delete(id);
         return ResponseEntity.noContent().build();
