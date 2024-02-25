@@ -4,6 +4,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.rcksrs.delivery.core.exception.global.UnauthorizedException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
+@Slf4j
 public class TokenService {
 
     @Value("${app.jwt.secret-key}")
@@ -33,7 +36,8 @@ public class TokenService {
                     .sign(Algorithm.HMAC256(this.secretKey));
 
         } catch (JWTCreationException ex) {
-            throw new JWTCreationException("Error generating token", ex);
+            log.error("Error generating token. {}", ex.getMessage());
+            throw new UnauthorizedException();
         }
     }
 
@@ -41,11 +45,13 @@ public class TokenService {
         try {
             return JWT.require(Algorithm.HMAC256(this.secretKey))
                     .withIssuer(this.issuer)
+                    .ignoreIssuedAt()
                     .build()
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException ex) {
-            throw new JWTVerificationException("Invalid token");
+            log.error("Error validating token. {}", ex.getMessage());
+            throw new UnauthorizedException();
         }
     }
 
