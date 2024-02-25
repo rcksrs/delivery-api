@@ -46,10 +46,10 @@ Abaixo está a lista de todos os endpoints do sistema e com quais perfis de aces
 
 **Lista de endpoints disponíveis para o perfil de acesso MANAGER**:
 - todos do perfil USER
+- `api/v1/store/**`
 - `api/v1/order/**`
 - `api/v1/delivery/**`
 
 **Lista de endpoints disponíveis para o perfil de acesso ADMIN**:
 - todos do perfil MANAGER
 - `api/v1/user/**`
-- `api/v1/store/**`
